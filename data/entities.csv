@@ -1,0 +1,12 @@
+﻿name;package;label;description;abstract;extends;backend;tags;label-en;description-en;label-nl;description-nl;label-de;description-de;label-es;description-es;label-it;description-it;label-pt;description-pt;label-fr;description-fr;label-xx;description-xx
+persons;root;Persons;person defines general attributes like firstName, lastName, that has can be filled in for each person in general, it is an abstract entity, so it cannot be initiated by itself and always has to be inherited by another entity;true;;PostgreSQL;;;;;;;;;;;;;;;;;
+cities;root;Cities;"list of cities, located in package root, so other companies can use the same ""root"" package and use the same entities";false;;PostgreSQL;;;;;;;;;;;;;;;;;
+gender;root;Gender;gender is located in the root package because it is not hospital specific;false;;PostgreSQL;;;;;;;;;;;;;;;;;
+departments;root_hospital;Departments;departments is hospital specific, so placed in the hospital package;false;;PostgreSQL;;;;;;;;;;;;;;;;;
+diagnosis;root_hospital;Diagnosis;diagnosis is hospital specific, so placed in the hospital package;false;;PostgreSQL;;;;;;;;;;;;;;;;;
+employees;root_hospital;Employees;employees extends persons, meaning it 'inherits' attribute definition;false;root_persons;PostgreSQL;;;;;;;;;;;;;;;;;
+functions;root_hospital;Functions;functions are hospital specific, so placed in the hospital package;false;;PostgreSQL;;;;;;;;;;;;;;;;;
+lab_results;root_hospital;Lab results;lab results are hospital specific, so placed in the hospital package;false;;PostgreSQL;;;;;;;;;;;;;;;;;
+patients;root_hospital;Patients;patients extends persons, meaning it 'inherits' attribute definition;false;root_persons;PostgreSQL;;;;;;;;;;;;;;;;;
+sample_types;root_hospital;Sample types;sample types are hospital specific, so placed in the hospital package;false;;PostgreSQL;;;;;;;;;;;;;;;;;
+users;root_hospital;Users;users are hospital specific, so placed in the root_hospital package;false;;PostgreSQL;;;;;;;;;;;;;;;;;
