@@ -12,7 +12,11 @@ const groupByUnique = (list, idAttr) =>
       [curr[idAttr]]: curr
     }), {})
 
+const paginated = (data, page) => 
+  page ? data.slice(page.number * page.size, (page.number + 1) * page.size) : data
+
 module.exports = {
   groupBy,
-  groupByUnique
+  groupByUnique,
+  paginated
 }

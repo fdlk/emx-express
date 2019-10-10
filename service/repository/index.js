@@ -1,10 +1,5 @@
-function Repository (meta, data) {
-  this.meta = meta
-  this.data = data
+const Repository = require('./Repository')
+
+module.exports = {
+  Repository
 }
-
-Repository.prototype.query = (resourceTypeId, ) => {
-
-}
-
-module.exports = Repository

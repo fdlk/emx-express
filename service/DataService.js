@@ -1,5 +1,9 @@
-'use strict';
+'use strict'
 
+const metadata = require('./metadata')
+const paging = require('./v3/paging')
+const v3Data = require('./v3/data')
+const {repository} = require ('./parse-emx')
 
 /**
  * Delete resources
@@ -10,7 +14,7 @@
  **/
 exports.dataResourceTypeIdDELETE = function(resourceTypeId,q) {
   return new Promise(function(resolve, reject) {
-    resolve();
+    reject();
   });
 }
 
@@ -29,39 +33,17 @@ exports.dataResourceTypeIdDELETE = function(resourceTypeId,q) {
  **/
 exports.dataResourceTypeIdGET = function(resourceTypeId,page,size,q,sort,filter,expand) {
   return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "links" : {
-    "previous" : "https://my.molgenis.org/api/data/Node?number=0",
-    "self" : "https://my.molgenis.org/api/data/Node?number=1",
-    "next" : "https://my.molgenis.org/api/data/Node?number=2"
-  },
-  "page" : {
-    "size" : 20,
-    "totalElements" : 100,
-    "totalPages" : 5,
-    "number" : 1
-  },
-  "items" : [ {
-    "data" : {
-      "id" : 0,
-      "parent" : "https://my.molgenis.org/api/data/Node/1",
-      "children" : "https://my.molgenis.org/api/data/Node/0/children"
+    try {
+      const pageBlock = paging.getPageBlock(page, repository.count(), size)
+      const patientsPage = repository.findAll(pageBlock)
+      const patientsAttributes = repository.getAllAttributes()
+      const response = v3Data.getResponse(repository.id, patientsAttributes, patientsPage, pageBlock)
+      resolve(response)
+    } catch(e) {
+      console.log('error', e)
+      reject(e)
     }
-  }, {
-    "data" : {
-      "id" : 0,
-      "parent" : "https://my.molgenis.org/api/data/Node/1",
-      "children" : "https://my.molgenis.org/api/data/Node/0/children"
-    }
-  } ]
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
+  })
 }
 
 
