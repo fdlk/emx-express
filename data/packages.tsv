@@ -1,0 +1,3 @@
+"name"	"description"	"label"	"parent"	"tags"
+"root"	"Main package having content that can be used for several different organisations (for instance other hospitals)"	"root"	""	""
+"root_hospital"	"Sub package having all hospital specific content"	"root_hospital"	"root"	""
