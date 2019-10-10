@@ -13,10 +13,13 @@ const mapDataType = (dataType) => {
   const result = dataType.toUpperCase()
   switch (result){
     case 'ONETOMANY':
+    case 'ONE_TO_MANY':
       return 'ONE_TO_MANY'
     case 'CATEGORICALMREF':
+    case 'CATEGORICAL_MREF':
       return 'CATEGORICAL_MREF'
     case 'DATETIME':
+    case 'DATE_TIME':
       return 'DATE_TIME'
     case 'INT':
     case 'LONG':

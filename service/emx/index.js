@@ -4,28 +4,20 @@ const data = require('./data')
 const utils = require('../utils')
 const metadata = require('../metadata')
 
-const parseData = (entity, meta, rawRows) => {
-  const allAttrs = metadata.attributes.getAllAttributes(entity, meta)
+const parseData = (entity, allMeta, rawRows) => {
+  const allAttrs = metadata.attributes.getAllAttributes(entity, allMeta)
   return data.parseRows(rawRows, allAttrs)
 }
 
-const parse = (rawEntities, rawAttributes, rawData) => {
+const parseMeta = (rawEntities, rawAttributes) => {
   const emxAttributesList = rawAttributes.map(attributes.normalize)
   const emxAttributes = utils.groupBy(emxAttributesList, 'entity')
-  const emxEntitiesList = rawEntities
-    .map(entities.normalize)
-  emxEntitiesList
-    .forEach((it) => it.attributes = emxAttributes[it.id])
-  const meta = utils.groupByUnique(emxEntitiesList, 'id')
-
-
-  const data = Object.entries(rawData).reduce((prev, [entity, rawRows]) => {
-    prev[entity] = parseData(entity, meta, rawRows)
-    return prev
-  }, {})
-  return { meta, data }
+  const emxEntitiesList = rawEntities.map(entities.normalize)
+  emxEntitiesList.forEach((it) => it.attributes = emxAttributes[it.id])
+  return utils.groupByUnique(emxEntitiesList, 'id')
 }
 
 module.exports = {
-  parse
+  parseMeta,
+  parseData
 }

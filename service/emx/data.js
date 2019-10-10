@@ -1,4 +1,4 @@
-const parseBool = value => value.trim().toLowercase() === 'true'
+const parseBool = value => value.trim().toLowerCase() === 'true'
 
 const parseRef = (value, refEntity) => ({
   refEntity,

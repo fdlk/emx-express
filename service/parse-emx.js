@@ -3,25 +3,36 @@ const csv = require('./csv')
 const emx = require('./emx')
 const Repository = require('./repository/Repository')
 
-const patientsId = 'root_hospital_patients'
-
 // read files
 const dataDir = './data'
-const entitiesCsv = files.read(`${dataDir}/entities.csv`)
-const attributesCsv = files.read(`${dataDir}/attributes.csv`)
-const patientsCsv = files.read(`${dataDir}/${patientsId}.csv`)
+console.log(`procesing metadata...`)
+const entitiesCsv = files.read(`${dataDir}/entities.tsv`)
+const attributesCsv = files.read(`${dataDir}/attributes.tsv`)
 
 // parse csv
 const rawEntities = csv.parse(entitiesCsv, {dynamicTyping: true})
 const rawAttributes = csv.parse(attributesCsv, {dynamicTyping: true})
-const rawPatients = csv.parse(patientsCsv)
 
-const {meta, data} = emx.parse(rawEntities, rawAttributes, {
-  [patientsId]: rawPatients
-})
+// parse emx meta
+const allMeta = emx.parseMeta(rawEntities, rawAttributes)
 
-const repository = new Repository(patientsId, meta, data[patientsId])
+// create data repositories
+const repositories = Object.entries(allMeta).reduce((prev, [id, meta]) => {
+  if (meta.abstract) {
+    return prev
+  }
+  const filename = `${dataDir}/${id}.tsv`
+  console.log(`procesing ${filename}...`)
+  const contents = files.read(filename)
+  const rawRows = csv.parse(contents)
+  const data = emx.parseData(id, allMeta, rawRows)
+  const repo = new Repository(id, allMeta, data)
+  return {
+    ...prev,
+    [id]: repo
+  }
+}, {})
 
 module.exports = {
-  repository
+  repositories
 }
