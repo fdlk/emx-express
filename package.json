@@ -4,6 +4,7 @@
   "description": "Serves EMX files",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -24,6 +25,7 @@
     "connect": "^3.2.0",
     "js-yaml": "^3.3.0",
     "oas3-tools": "^1.0.1",
-    "papaparse": "^5.1.0"
+    "papaparse": "^5.1.0",
+    "sift": "^8.5.1"
   }
 }
